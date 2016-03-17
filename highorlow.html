@@ -20,10 +20,12 @@
 	<div class="container">
 		<p>Your Number : </p> <span class="suitColor"></span> <span id="a"></span>
 		<p>Opponent : </p> <span class="suitColor"></span> <span id="b"></span>
+		
 	</div>
+	<p>Score : </p> <span id="score"></span>
 	<div class="">
-		<div class="button" onClick="">High</div>
-		<div class="button" onClick="">Low</div>
+		<div class="button">High</div>
+		<div class="button">Low</div>
 	</div>
 </body>
 <script type="text/javascript">
@@ -31,13 +33,17 @@
 	var compNumber;
 	var suit;
 	var compSuit;
-	var a;
-	var b;
+	var a = document.getElementById("a");
+	var b = document.getElementById("b");
+	var buttonHigh = document.getElementsByClassName("button")[0];
+	var buttonLow = document.getElementsByClassName("button")[1];
 	var suitColor;
-	window.onload = function yourNumber(){
+	
+
+	var init = window.onload = function yourNumber(){
+		init = true;
 		number = Math.floor(Math.random() * 13 + 1);
 		suit = Math.floor(Math.random() * 4 + 1);
-		a = document.getElementById("a");
 		suitColor = document.getElementsByClassName("suitColor")[0];
 		switch(suit){
 			case 1:
@@ -76,95 +82,62 @@
 		suitColor.innerHTML = suit;
 		a.innerHTML = number;
 		//http://stackoverflow.com/questions/11299952/how-to-determine-if-a-function-has-been-called-without-setting-global-variable
-		compNumber = Math.floor(Math.random() * 13 + 1);
-		compSuit = Math.floor(Math.random() * 4 + 1);
-		b = document.getElementById("b");
-		suitColor1 = document.getElementsByClassName("suitColor")[1];
-		switch(compSuit){
-			case 1:
-				compSuit = "&spades;";
-				suitColor1.style.color = "black";
-				break;
-			case 2:
-				compSuit = "&hearts;";
-				suitColor1.style.color = "red";
-				break;
-			case 3:
-				compSuit = "&clubs;";
-				suitColor1.style.color = "black";
-				break;
-			case 4:
-				compSuit = "&diams;";
-				suitColor1.style.color = "red";
-				break;
-		}
-		switch(compNumber){
-			case 1:
-				compNumber = "A";
-				break;
-			case 11:
-				compNumber = "J";
-				break;
-			case 12:
-				compNumber = "Q";
-				break;
-			case 13:
-				compNumber = "K";
-				break;
+		buttonHigh.onclick = function opponentNum(){ 
+			compNumber = Math.floor(Math.random() * 13 + 1);
+			compSuit = Math.floor(Math.random() * 4 + 1);
+			suitColor1 = document.getElementsByClassName("suitColor")[1];
+			if(number == compNumber){
+				console.log("same number");
+				opponentNum();
+			}
+			switch(compSuit){
+				case 1:
+					compSuit = "&spades;";
+					suitColor1.style.color = "black";
+					break;
+				case 2:
+					compSuit = "&hearts;";
+					suitColor1.style.color = "red";
+					break;
+				case 3:
+					compSuit = "&clubs;";
+					suitColor1.style.color = "black";
+					break;
+				case 4:
+					compSuit = "&diams;";
+					suitColor1.style.color = "red";
+					break;
+			}
+			switch(compNumber){
+				case 1:
+					compNumber = "A";
+					break;
+				case 11:
+					compNumber = "J";
+					break;
+				case 12:
+					compNumber = "Q";
+					break;
+				case 13:
+					compNumber = "K";
+					break;
 
+			}
+			console.log(suit + " " + compNumber);
+			
+				suitColor1.innerHTML = compSuit;
+				b.innerHTML = compNumber;
+				check(number, compNumber);
+				if(init){
+					yourNumber();
+				}
+			
 		}
-		//suitColor1.innerHTML = suit;
-		//b.innerHTML = compNumber;
-		check(number, compNumber);
 	}
 
-	/*function opponentNum(){
-		compNumber = Math.floor(Math.random() * 13 + 1);
-		compSuit = Math.floor(Math.random() * 4 + 1);
-		b = document.getElementById("b");
-		suitColor1 = document.getElementsByClassName("suitColor")[1];
-		switch(compSuit){
-			case 1:
-				compSuit = "&spades;";
-				suitColor1.style.color = "black";
-				break;
-			case 2:
-				compSuit = "&hearts;";
-				suitColor1.style.color = "red";
-				break;
-			case 3:
-				compSuit = "&clubs;";
-				suitColor1.style.color = "black";
-				break;
-			case 4:
-				compSuit = "&diams;";
-				suitColor1.style.color = "red";
-				break;
-		}
-		switch(compNumber){
-			case 1:
-				compNumber = "A";
-				break;
-			case 11:
-				compNumber = "J";
-				break;
-			case 12:
-				compNumber = "Q";
-				break;
-			case 13:
-				compNumber = "K";
-				break;
-
-		}
-		suitColor1.innerHTML = suit;
-		b.innerHTML = compNumber;
-		check(compNumber);
-	}*/
-
-	function check(item1, item2){
-		console.log(item1 + " " + item2);
-		if(item1 == item2){
-			yourNumber();
+	function check(number, compNumber){
+		if(number > compNumber){
+			console.log("You win!");
 		}
 	}
 </script>
