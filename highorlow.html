@@ -24,7 +24,7 @@
 	</div>
 	<p>Score : </p> <span id="score"></span>
 	<div class="">
-		<div class="button">High</div>
+		<div class="button" onClick="revealComp()">High</div>
 		<div class="button">Low</div>
 	</div>
 </body>
@@ -37,75 +37,85 @@
 	var b = document.getElementById("b");
 	var buttonHigh = document.getElementsByClassName("button")[0];
 	var buttonLow = document.getElementsByClassName("button")[1];
-	var suitColor;
-	
+	var suitColor = document.getElementsByClassName("suitColor")[0];
+	var suitColor1 = document.getElementsByClassName("suitColor")[1];
 
-	var init = window.onload = function yourNumber(){
-		init = true;
-		number = Math.floor(Math.random() * 13 + 1);
-		suit = Math.floor(Math.random() * 4 + 1);
-		suitColor = document.getElementsByClassName("suitColor")[0];
-		switch(suit){
-			case 1:
-				suit = "&spades;";
-				suitColor.style.color = "black";
-				break;
-			case 2:
-				suit = "&hearts;";
-				suitColor.style.color = "red";
-				break;
-			case 3:
-				suit = "&clubs;";
-				suitColor.style.color = "black";
-				break;
-			case 4:
-				suit = "&diams;";
-				suitColor.style.color = "red";
-				break;
-		}
-		switch(number){
-			case 1:
-				number = "A";
-				break;
-			case 11:
-				number = "J";
-				break;
-			case 12:
-				number = "Q";
-				break;
-			case 13:
-				number = "K";
-				break;
+	function yourNumber(){
+			number = Math.floor(Math.random() * 13 + 1);
+			suit = Math.floor(Math.random() * 4 + 1);
+			switch(suit){
+				case 1:
+					suit = "&spades;";
+					break;
+				case 2:
+					suit = "&hearts;";
+					break;
+				case 3:
+					suit = "&clubs;";
+					break;
+				case 4:
+					suit = "&diams;";
+					break;
+			}
+			switch(number){
+				case 1:
+					number = "A";
+					break;
+				case 11:
+					number = "J";
+					break;
+				case 12:
+					number = "Q";
+					break;
+				case 13:
+					number = "K";
+					break;
 
-		}
-		console.log(suit + " " + number);
-		suitColor.innerHTML = suit;
-		a.innerHTML = number;
-		//http://stackoverflow.com/questions/11299952/how-to-determine-if-a-function-has-been-called-without-setting-global-variable
-		buttonHigh.onclick = function opponentNum(){ 
+			}
+			//suitColor.innerHTML = suit;
+			//a.innerHTML = number;
+			return [number, suit];
+	}
+	var cardReveal = yourNumber();
+	var card = cardReveal[0];
+	var color = cardReveal[1];
+	console.log(card);
+	console.log(color);
+	function reveal(){
+		switch(color){
+				case "&spades;":
+					suitColor.style.color = "black";
+					break;
+				case "&hearts;":
+					suitColor.style.color = "red";
+					break;
+				case "&clubs;":
+					suitColor.style.color = "black";
+					break;
+				case "&diams;":
+					suitColor.style.color = "red";
+					break;
+			}
+		suitColor.innerHTML = color;
+		a.innerHTML = card;
+	}
+	reveal();
+
+	/*function opponentNum(){ 
 			compNumber = Math.floor(Math.random() * 13 + 1);
 			compSuit = Math.floor(Math.random() * 4 + 1);
-			suitColor1 = document.getElementsByClassName("suitColor")[1];
-			if(number == compNumber){
-				console.log("same number");
-				opponentNum();
-			}
 			switch(compSuit){
 				case 1:
 					compSuit = "&spades;";
-					suitColor1.style.color = "black";
 					break;
 				case 2:
 					compSuit = "&hearts;";
-					suitColor1.style.color = "red";
 					break;
 				case 3:
 					compSuit = "&clubs;";
-					suitColor1.style.color = "black";
 					break;
 				case 4:
 					compSuit = "&diams;";
-					suitColor1.style.color = "red";
 					break;
 			}
 			switch(compNumber){
@@ -123,17 +133,42 @@
 					break;
 
 			}
-			console.log(suit + " " + compNumber);
-			
-				suitColor1.innerHTML = compSuit;
-				b.innerHTML = compNumber;
-				check(number, compNumber);
-				if(init){
-					yourNumber();
-				}
+			console.log("Your number:" + number + "    " + "Computer number:" + compNumber);
+			return [compNumber, compSuit];				
+		}*/
+	
+	function revealComp(){
+		var cardRevealComp = yourNumber();
+		var card1 = cardRevealComp[0];
+		var color1 = cardRevealComp[1];
+		console.log(card1);
+		console.log(color1);
+		switch(color1){
+				case "&spades;":
+					suitColor1.style.color = "black";
+					break;
+				case "&hearts;":
+					suitColor1.style.color = "red";
+					break;
+				case "&clubs;":
+					suitColor1.style.color = "black";
+					break;
+				case "&diams;":
+					suitColor1.style.color = "red";
+					break;
+			}
+		if(card == card1){
+			yourNumber();
+			revealComp();
 			
 		}
+		else{
+			suitColor1.innerHTML = color1;
+			b.innerHTML = card1;
+		}
 	}
+
+
 
 	function check(number, compNumber){
 		if(number > compNumber){
